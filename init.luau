@@ -11,6 +11,7 @@ local THROTTLE_SERVER = false -- Server has a constant 60 fps so we don't need t
 
 local FrameTime = 1 / (FPS + 10)
 local FrameStart = os.clock()
+local RawFps = FPS
 
 local YieldedThreads = {}
 
@@ -53,6 +54,7 @@ local function update()
 	FrameStart = os.clock()
 	FrameChecker.FrameStart = FrameStart
 	local fps = getFPS()
+ RawFps = fps
 
 	if inTolerance(fps, FPS) then
 		changingStartTime = os.clock()
@@ -71,6 +73,12 @@ local function update()
 	FrameChecker.FPS = FPS
 	FrameChecker.FrameTime = FrameTime
 end
+
+function FrameChecker.getRawFPS()
+	return RawFps
+end
+
+
 
 function FrameChecker.getFPS()
 	return FPS
